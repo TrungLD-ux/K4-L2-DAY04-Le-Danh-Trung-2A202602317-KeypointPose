@@ -1,4 +1,4 @@
-# Mini guideline - nhóm: 1  |  người gán: Lê Danh Trung  |  ngày: 16/09/2026
+# Mini guideline - nhóm: G04  |  người gán: Lê Danh Trung  |  ngày: 16/09/2026
 
 > Điền file này **trong lúc** gán nhãn, không phải sau khi xong. Mỗi lần bạn dừng lại
 > hơn 10 giây để phân vân, đó là một dòng phải ghi vào đây.
