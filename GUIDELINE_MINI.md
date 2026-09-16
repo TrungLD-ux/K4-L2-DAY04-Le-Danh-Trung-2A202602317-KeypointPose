@@ -22,6 +22,7 @@
 | Cổ tay bị vật đang cầm, thân người hoặc bộ phận khác che | Chọn `v = 1` và đặt điểm ở vị trí ước lượng | Cổ tay còn trong khung; vị trí được suy ra từ khuỷu tay, hướng cẳng tay và phần bàn tay còn quan sát được. |
 | Hai người chồng lên nhau | Hoàn thành riêng từng skeleton; keypoint bị người khác che nhưng còn trong ảnh chọn `v = 1` | Làm riêng từng người giúp tránh nối keypoint sang cơ thể bên cạnh và vẫn giữ thông tin của khớp bị che. |
 | Người xuất hiện nhỏ trong ảnh | Vẫn gán đủ 17 điểm nếu người đó thuộc phạm vi người cần gán của task | Không tự bỏ skeleton chỉ vì kích thước nhỏ; trạng thái từng keypoint vẫn được quyết định theo bằng chứng trong ảnh. |
+| Tâm keypoint của tai bị tóc, mũ, góc quay đầu hoặc vật cản che nhưng vị trí tai vẫn trong khung | Chọn `v = 1` và đặt điểm giải phẫu ước lượng | Keypoint không nhìn thấy trực tiếp nhưng vẫn tồn tại trong ảnh; chỉ chọn `v=2` khi tâm keypoint nhìn thấy rõ và chọn `v=0` khi tai thực sự ra ngoài mép ảnh. |
 
 Ảnh mẫu minh họa các luật trên:
 
@@ -66,6 +67,6 @@
 
 ## 4. Sau khi so visibility report với bạn cùng nhóm
 
-- Khớp lệch `%v=1` nhiều nhất:
-- Nguyên nhân là **guideline chưa rõ** hay **một trong hai bên gán sai**:
-- Luật mới bổ sung vào mục 2 sau khi thống nhất:
+- Khớp lệch `%v=1` nhiều nhất: `left_ear` (bạn `66%` / đối chiếu `45%`), lệch `21` điểm phần trăm.
+- Nguyên nhân là **guideline chưa rõ** hay **một trong hai bên gán sai**: Bảng so sánh cho thấy hai bên chưa áp dụng hoàn toàn giống nhau tiêu chí phân biệt `v=1` và `v=2` đối với `left_ear`. Chỉ riêng tỷ lệ thống kê chưa đủ để kết luận một bên gán sai; cần đối chiếu hình ảnh tại các trường hợp tai bị tóc, góc quay đầu hoặc vật cản che.
+- Luật mới bổ sung vào mục 2 sau khi thống nhất: Nếu tâm keypoint của tai không nhìn thấy trực tiếp do tóc, mũ, góc quay đầu hoặc vật cản nhưng vị trí tai vẫn còn trong khung ảnh, đặt điểm tại vị trí giải phẫu ước lượng và chọn `v=1`. Chỉ chọn `v=2` khi tâm keypoint nhìn thấy trực tiếp; chỉ chọn `v=0` khi vị trí tai thực sự ra ngoài mép ảnh.
