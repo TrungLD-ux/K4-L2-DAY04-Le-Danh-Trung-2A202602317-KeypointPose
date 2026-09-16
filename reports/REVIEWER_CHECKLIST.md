@@ -13,11 +13,11 @@ python tools/visibility_report.py --labels dataset/labels/train --compare ban_cu
 | | Mục kiểm | Đạt? | Ghi chú / ảnh nào |
 | --- | --- | --- | --- |
 | 1 | Mọi người trong ảnh đều có đủ 17 điểm, không ai bị thiếu | ☑ | `check_pose_labels.py` đã đọc đủ 20/20 file nhãn và 29 skeleton. |
-| 2 | Bật đường nối: không có xương nào cắt chéo ở vai hoặc hông | ☐ | Cần kiểm tra trực quan `train_13.jpg`, người thứ 2; công cụ cảnh báo cặp `left_shoulder/right_shoulder` có dấu hiệu đảo trái/phải so với hai mắt. |
-| 3 | Không có xương nào kéo dài sang một cơ thể khác | ☐ | Chưa xác nhận bằng ảnh visualize của bài đối chiếu. |
-| 4 | Khớp bị che dùng `v = 1` **và có chấm**, không phải `v = 0` | ☐ | Công cụ đưa ra 9 cảnh báo liên quan đến việc dùng `v=0` tại những skeleton được nhận định là nằm gọn trong ảnh; cần kiểm tra trực quan trước khi kết luận. |
-| 5 | `v = 0` chỉ xuất hiện ở khớp thật sự ra ngoài mép ảnh | ☐ | Bài đối chiếu có 71 keypoint `v=0`; cần xem lại `train_02`, `train_04`, `train_06`, `train_09`, `train_10`, `train_11`, `train_13` và `train_14`. |
-| 6 | Không có dấu hiệu dùng `Hidden` (điểm `v = 2` nằm ở chỗ vô lý) | ☐ | Chưa xác nhận bằng ảnh visualize của bài đối chiếu. |
+| 2 | Bật đường nối: không có xương nào cắt chéo ở vai hoặc hông | ☐ | Đã kiểm tra trực quan toàn bộ ảnh được công cụ cảnh báo. Không thấy cắt chéo bất thường rõ ràng ở `train_02`, `train_04`, `train_06`, `train_09`, `train_10`, `train_11` và `train_14`; riêng `train_13`, người thứ 2, vẫn có cảnh báo hình học về cặp vai trong khu vực có các skeleton chồng lấn nên chưa thể đánh dấu đạt. |
+| 3 | Không có xương nào kéo dài sang một cơ thể khác | ☑ | Đã kiểm tra trực quan các ảnh cảnh báo `train_02`, `train_04`, `train_06`, `train_09`, `train_10`, `train_11`, `train_13` và `train_14`; không phát hiện đường xương nối sang cơ thể khác. |
+| 4 | Khớp bị che dùng `v = 1` **và có chấm**, không phải `v = 0` | ☐ | `train_02`, `train_06`, `train_09`, `train_10`, `train_11` và `train_14` có các bộ phận bị phương tiện, vật thể hoặc cơ thể khác che trong khung. Cần mở từng keypoint đang có `v=0` trong CVAT để phân biệt chính xác `Occluded` với `Outside`. |
+| 5 | `v = 0` chỉ xuất hiện ở khớp thật sự ra ngoài mép ảnh | ☐ | Bài đối chiếu có 71 keypoint `v=0`. `train_04` có các phần chân thực sự bị cắt ở mép ảnh, nhưng những ảnh khác cho thấy một số bộ phận có thể chỉ bị vật thể che trong khung. Do đó, chưa thể xác nhận toàn bộ keypoint `v=0` đều đúng. |
+| 6 | Không có dấu hiệu dùng `Hidden` (điểm `v = 2` nằm ở chỗ vô lý) | ☑ | Không phát hiện điểm `v=2` nằm ở vị trí vô lý trong toàn bộ các ảnh được công cụ cảnh báo và đã kiểm tra trực quan. |
 | 7 | Export đúng **COCO Keypoints 1.0**: mảng `keypoints` có 51 số mỗi người | ☐ | Chưa kiểm tra trực tiếp file export COCO Keypoints của bài đối chiếu. |
 | 8 | Bản YOLO Pose: mỗi dòng 56 số, `kpt_shape: [17, 3]` | ☑ | `check_pose_labels.py` đã đọc thành công 20/20 file nhãn, 29 skeleton và kết luận `ĐẠT định dạng`. |
 | 9 | Visibility report đã nộp, và hai bảng đã được đặt cạnh nhau | ☑ | Đã tạo `reports/visibility_compare.md`; hai bộ nhãn đều có 29 skeleton. |
@@ -31,12 +31,11 @@ mở đúng chỗ đó được mà không cần hỏi lại.
 
 | Ảnh | Người thứ | Khớp | Lỗi gì | Sửa thế nào |
 | --- | ---: | --- | --- | --- |
-| `train_13.jpg` | 2 | `left_shoulder / right_shoulder` | Công cụ cảnh báo cặp vai có dấu hiệu đảo trái/phải so với hai mắt; chưa xác nhận bằng mắt. | Mở ảnh visualize và xác định trái/phải theo cơ thể. Chỉ đổi cặp vai nếu hình ảnh xác nhận hai keypoint đã bị đảo. |
-| `train_02.jpg` | 1 | Các keypoint đang có `v=0` | Có 4 keypoint `v=0` trong khi công cụ nhận định toàn bộ cơ thể nằm gọn trong ảnh. | Kiểm tra từng keypoint. Nếu khớp bị che nhưng còn trong khung thì đặt điểm ước lượng và chuyển sang `v=1`. |
-| `train_06.jpg` | 1 | Các keypoint đang có `v=0` | Có 7 keypoint `v=0` trong khi công cụ nhận định toàn bộ cơ thể nằm gọn trong ảnh. | Chỉ giữ `v=0` nếu phần cơ thể chứa keypoint thực sự ra ngoài mép ảnh; nếu còn trong khung nhưng bị che thì dùng `v=1`. |
+| `train_13.jpg` | 2 | `left_shoulder / right_shoulder` | Công cụ cảnh báo cặp vai có dấu hiệu đảo trái/phải so với hai mắt. Khu vực này có các skeleton chồng lấn nên chưa thể xác nhận chắc chắn chỉ bằng ảnh visualize. | Mở đúng skeleton người thứ 2 trong CVAT, xác định trái/phải theo cơ thể và chỉ đổi cặp vai nếu vị trí từng keypoint xác nhận đã bị đảo. |
+| `train_06.jpg` | 1 | Các keypoint đang có `v=0` | Có 7 keypoint `v=0`; ảnh trực quan cho thấy phần thân dưới và các chi thể bị phương tiện che đáng kể. | Kiểm tra từng keypoint với mép ảnh; dùng `v=1` nếu còn trong ảnh nhưng bị che và chỉ giữ `v=0` nếu keypoint thực sự ngoài ảnh. |
+| `train_14.jpg` | 2 | Các keypoint đang có `v=0` | Có 4 keypoint `v=0`; ảnh trực quan cho thấy phần chân vẫn xuất hiện trong khung nhưng bị che một phần bởi tư thế và đối tượng ở tiền cảnh. | Mở từng keypoint trong CVAT; chuyển sang `v=1` và đặt điểm ước lượng nếu khớp còn trong khung, chỉ giữ `v=0` nếu khớp thực sự ngoài mép ảnh. |
 
 ## Hai câu kết luận
 
-- Lỗi lặp đi lặp lại nhiều nhất của bài này: Công cụ nhiều lần cảnh báo việc sử dụng `v=0` tại những skeleton được nhận định là nằm gọn trong ảnh; có 9 cảnh báo thuộc nhóm này.
-- Nó là lỗi **thao tác** hay lỗi **guideline chưa rõ**? Kết quả kiểm tra cho thấy đây trước hết có thể là lỗi guideline chưa rõ khi phân biệt `Outside` (`v=0`) với `Occluded` (`v=1`); cần kiểm tra trực quan từng trường hợp trước khi kết luận là lỗi thao tác.
-`
+- Lỗi lặp đi lặp lại nhiều nhất của bài này: Công cụ đưa ra 9 cảnh báo về việc sử dụng `v=0` tại những skeleton được nhận định là nằm gọn trong ảnh. Kiểm tra trực quan cho thấy dữ liệu có cả trường hợp bộ phận thực sự bị cắt bởi mép ảnh và trường hợp bộ phận bị vật thể che trong khung.
+- Nó là lỗi **thao tác** hay lỗi **guideline chưa rõ**? Khác biệt chủ yếu xuất phát từ việc guideline phân biệt `Outside` (`v=0`) với `Occluded` (`v=1`) chưa được áp dụng nhất quán. Từng keypoint cần được đối chiếu với mép ảnh và phần cơ thể liền kề trước khi xác định trường hợp cụ thể là lỗi thao tác.
