@@ -68,5 +68,5 @@
 ## 4. Sau khi so visibility report với bạn cùng nhóm
 
 - Khớp lệch `%v=1` nhiều nhất: `left_ear` (bạn `66%` / đối chiếu `45%`), lệch `21` điểm phần trăm.
-- Nguyên nhân là **guideline chưa rõ** hay **một trong hai bên gán sai**: Bảng so sánh cho thấy hai bên chưa áp dụng hoàn toàn giống nhau tiêu chí phân biệt `v=1` và `v=2` đối với `left_ear`. Chỉ riêng tỷ lệ thống kê chưa đủ để kết luận một bên gán sai; cần đối chiếu hình ảnh tại các trường hợp tai bị tóc, góc quay đầu hoặc vật cản che.
+- Nguyên nhân là **guideline chưa rõ** hay **một trong hai bên gán sai**: Bảng so sánh cho thấy hai bên chưa áp dụng hoàn toàn giống nhau tiêu chí phân biệt `v=1` và `v=2` đối với `left_ear`. Chỉ riêng tỷ lệ thống kê chưa đủ để kết luận một bên gán sai; cần đối chiếu các trường hợp tai bị tóc, góc quay đầu hoặc vật cản che.
 - Luật mới bổ sung vào mục 2 sau khi thống nhất: Nếu tâm keypoint của tai không nhìn thấy trực tiếp do tóc, mũ, góc quay đầu hoặc vật cản nhưng vị trí tai vẫn còn trong khung ảnh, đặt điểm tại vị trí giải phẫu ước lượng và chọn `v=1`. Chỉ chọn `v=2` khi tâm keypoint nhìn thấy trực tiếp; chỉ chọn `v=0` khi vị trí tai thực sự ra ngoài mép ảnh.
