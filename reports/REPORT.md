@@ -58,19 +58,18 @@ Không có lỗi đảo trái/phải trong toàn bộ 20 ảnh. `check_pose_labe
 
 ## 3. Kiểm chéo
 
-Bạn cùng nhóm: ______
+Bạn cùng nhóm: **NGUYỄN LÊ THẾ ANH**
 
 Khớp lệch `%v=1` nhiều nhất giữa hai bảng đếm:
 
 | Khớp | Bạn | Họ | Lệch | Nguyên nhân (guideline hay gán sai?) |
 | --- | ---: | ---: | ---: | --- |
-| | | | | |
-| | | | | |
+| `left_ear` | 66% | 45% | 21 điểm phần trăm | Hai bên áp dụng chưa hoàn toàn giống nhau tiêu chí phân biệt tai bị che `v=1` với tai nhìn thấy rõ `v=2`. Bảng đếm chỉ cho thấy bất đồng về visibility, chưa đủ để khẳng định một bên gán sai. |
+| `right_knee` | 28% | 14% | 14 điểm phần trăm | Hai bên có cách xử lý khác nhau đối với đầu gối không nhìn thấy trực tiếp nhưng vẫn còn trong khung. Cần dựa vào phần đùi, cẳng chân và mép ảnh để phân biệt `v=1` với `v=0`. |
 
-Luật mới đã bổ sung vào `GUIDELINE_MINI.md` sau khi thống nhất:
+Luật mới đã bổ sung vào `GUIDELINE_MINI.md` sau khi kiểm chéo:
 
-<!-- Viết một rule kiểm chứng được: điều kiện nhìn thấy/căn cứ vị trí → chọn v=1 hoặc v=0.
-Không chỉ ghi “cẩn thận hơn khi gán”. -->
+- Nếu tâm keypoint của tai không nhìn thấy trực tiếp do tóc, mũ, góc quay đầu hoặc vật cản nhưng vị trí tai vẫn còn trong khung ảnh, đặt điểm tại vị trí giải phẫu ước lượng và chọn `v=1`. Chỉ chọn `v=2` khi tâm keypoint nhìn thấy trực tiếp; chỉ chọn `v=0` khi vị trí tai thực sự ra ngoài mép ảnh.
 
 -
 
