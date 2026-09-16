@@ -71,7 +71,6 @@ Luật mới đã bổ sung vào `GUIDELINE_MINI.md` sau khi thống nhất:
 
 - Nếu tâm keypoint của tai không nhìn thấy trực tiếp do tóc, mũ, góc quay đầu hoặc vật cản nhưng vị trí tai vẫn còn trong khung ảnh, đặt điểm tại vị trí giải phẫu ước lượng và chọn `v=1`. Chỉ chọn `v=2` khi tâm keypoint nhìn thấy trực tiếp; chỉ chọn `v=0` khi vị trí tai thực sự ra ngoài mép ảnh.
 
--
 
 ## 4. Model
 
