@@ -26,9 +26,9 @@
 
 Ảnh mẫu minh họa các luật trên:
 
-![Ví dụ người chồng lên nhau và keypoint bị che](assets/guide/train_13_overlap.png)
+![Ví dụ người chồng lên nhau và keypoint bị che](assets/guide/train_13.jpg)
 
-![Ví dụ keypoint ở chân ra ngoài mép ảnh](assets/guide/train_04_outside.png)
+![Ví dụ keypoint ở chân ra ngoài mép ảnh](assets/guide/train_04.jpg)
 
 ## 3. Ba ca mơ hồ đã gặp (bắt buộc, ghi ít nhất 3)
 
@@ -41,7 +41,7 @@
 
 Ảnh mẫu:
 
-![train_13, người thứ 2, hai mắt cá chân Outside](assets/guide/train_13_person_2_ankles.png)
+![train_13, người thứ 2, hai mắt cá chân Outside](assets/guide/train_13.jpg)
 
 ### Ca 2 - ảnh `train_02.jpg`, người thứ `1`, khớp `right_hip`
 
@@ -52,7 +52,7 @@
 
 Ảnh mẫu:
 
-![train_02, người thứ 1, right_hip Occluded](assets/guide/train_02_person_1_right_hip.png)
+![train_02, người thứ 1, right_hip Occluded](assets/guide/train_02.jpg)
 
 ### Ca 3 - ảnh `train_04.jpg`, người thứ `1`, khớp `left_wrist / right_wrist`
 
@@ -63,7 +63,7 @@
 
 Ảnh mẫu:
 
-![train_04, người thứ 1, trạng thái hai cổ tay](assets/guide/train_04_person_1_wrists.png)
+![train_04, người thứ 1, trạng thái hai cổ tay](assets/guide/train_04.jpg)
 
 ## 4. Sau khi so visibility report với bạn cùng nhóm
 
