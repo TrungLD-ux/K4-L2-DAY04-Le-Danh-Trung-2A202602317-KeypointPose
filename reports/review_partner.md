@@ -1,38 +1,30 @@
-# Kiểm chéo nhãn Keypoint & Pose
+# Kết quả kiểm chéo nhãn Keypoint & Pose
 
-- Người gán: **NGUYỄN LÊ THẾ ANH**
-- Người kiểm: **Lê Danh Trung**
-- Ngày: **16/09/2026**
-- Dữ liệu đối chiếu: **20 ảnh, 29 skeleton**
+Người gán: **NGUYỄN LÊ THẾ ANH**  
+Người kiểm: **Lê Danh Trung**  
+Ngày: **16/09/2026**
 
-## 1. Kết quả kiểm tra bằng công cụ
+## Kết quả kiểm tra
 
-Lệnh kiểm tra đã đọc đủ `20/20` file nhãn và `29` skeleton. Bộ nhãn đối chiếu đạt yêu cầu định dạng.
-
-Thống kê visibility của bài đối chiếu:
+`check_pose_labels.py` đã đọc đủ 20/20 file nhãn và 29 skeleton. Bộ nhãn đối chiếu đạt định dạng YOLO Pose, với tổng số cờ visibility:
 
 - `v=2`: 314
 - `v=1`: 108
 - `v=0`: 71
 
-Công cụ đưa ra 10 cảnh báo cần xem lại nhưng không chặn nộp:
+Công cụ đưa ra 10 cảnh báo không chặn nộp, gồm 9 cảnh báo liên quan đến việc sử dụng `v=0` tại những skeleton được nhận định là nằm gọn trong ảnh và 1 cảnh báo nghi ngờ đảo trái/phải.
 
-- `train_02.txt`, người 1: có 4 khớp `v=0` trong khi người nằm gọn trong ảnh.
-- `train_04.txt`, người 1: có 4 khớp `v=0` trong khi người nằm gọn trong ảnh.
-- `train_04.txt`, người 2: có 7 khớp `v=0` trong khi người nằm gọn trong ảnh.
-- `train_06.txt`, người 1: có 7 khớp `v=0` trong khi người nằm gọn trong ảnh.
-- `train_09.txt`, người 1: có 7 khớp `v=0` trong khi người nằm gọn trong ảnh.
-- `train_10.txt`, người 1: có 4 khớp `v=0` trong khi người nằm gọn trong ảnh.
-- `train_11.txt`, người 1: có 5 khớp `v=0` trong khi người nằm gọn trong ảnh.
-- `train_13.txt`, người 1: có 4 khớp `v=0` trong khi người nằm gọn trong ảnh.
-- `train_13.txt`, người 2: cặp vai có dấu hiệu đảo trái/phải so với hai mắt.
-- `train_14.txt`, người 2: có 4 khớp `v=0` trong khi người nằm gọn trong ảnh.
+## Lỗi và cảnh báo tìm được
 
-Các cảnh báo trên là cảnh báo tự động và cần kiểm tra trực quan trước khi kết luận là lỗi thật.
+| Ảnh | Người thứ | Khớp | Lỗi gì | Sửa thế nào |
+| --- | ---: | --- | --- | --- |
+| `train_13.jpg` | 2 | `left_shoulder / right_shoulder` | Công cụ cảnh báo cặp vai có dấu hiệu đảo trái/phải so với hai mắt. Khu vực này có các skeleton chồng lấn nên chưa thể xác nhận chắc chắn chỉ bằng ảnh visualize. | Mở đúng skeleton người thứ 2 trong CVAT, xác định trái/phải theo cơ thể và chỉ đổi cặp vai nếu vị trí từng keypoint xác nhận đã bị đảo. |
+| `train_06.jpg` | 1 | Các keypoint đang có `v=0` | Có 7 keypoint `v=0`; ảnh trực quan cho thấy phần thân dưới và các chi thể bị phương tiện che đáng kể. | Kiểm tra từng keypoint với mép ảnh; dùng `v=1` nếu còn trong ảnh nhưng bị che, chỉ giữ `v=0` nếu keypoint thực sự ngoài ảnh. |
+| `train_14.jpg` | 2 | Các keypoint đang có `v=0` | Có 4 keypoint `v=0`; ảnh trực quan cho thấy phần chân vẫn xuất hiện trong khung nhưng bị che một phần. | Mở từng keypoint trong CVAT; chuyển sang `v=1` và đặt điểm ước lượng nếu khớp còn trong khung, chỉ giữ `v=0` nếu khớp thực sự ngoài mép ảnh. |
 
-## 2. Kết quả so sánh visibility
+## So sánh visibility
 
-| Khớp | `%v=1` của tôi | `%v=1` của bài đối chiếu | Lệch |
+| Khớp | Bài của tôi | Bài đối chiếu | Lệch |
 | --- | ---: | ---: | ---: |
 | `left_ear` | 66% | 45% | 21 điểm phần trăm |
 | `right_knee` | 28% | 14% | 14 điểm phần trăm |
@@ -40,18 +32,9 @@ Các cảnh báo trên là cảnh báo tự động và cần kiểm tra trực 
 | `left_wrist` | 38% | 28% | 10 điểm phần trăm |
 | `left_knee` | 24% | 14% | 10 điểm phần trăm |
 
-## 3. Nhận xét
+## Kết luận
 
-`left_ear` có chênh lệch `%v=1` lớn nhất. Hai bên có thể đang áp dụng khác nhau tiêu chí phân biệt tai bị che với tai nhìn thấy trực tiếp. Bảng thống kê chưa đủ để kết luận bên nào gán sai.
+Lỗi hoặc cảnh báo lặp lại nhiều nhất là việc dùng `v=0` tại những skeleton được công cụ nhận định là nằm gọn trong ảnh. Kiểm tra trực quan cho thấy dữ liệu có cả trường hợp bộ phận thực sự bị cắt bởi mép ảnh và trường hợp bộ phận bị vật thể che trong khung.
 
-`right_knee` có chênh lệch lớn thứ hai. Cần kiểm tra riêng các trường hợp đầu gối không nhìn thấy trực tiếp nhưng phần đùi và cẳng chân vẫn nằm trong khung, nhằm phân biệt chính xác `v=1` với `v=0`.
-
-Bài đối chiếu có 71 keypoint `v=0`, cao hơn 35 keypoint `v=0` trong bài của tôi. Các cảnh báo tự động cho thấy một số trường hợp có thể đã dùng `Outside` tại vị trí đáng lẽ cần xem xét `Occluded`; tuy nhiên phải kiểm tra ảnh trực quan trước khi xác nhận lỗi.
-
-## 4. Rule đề xuất sau kiểm chéo
-
-Nếu tâm keypoint của tai không nhìn thấy trực tiếp do tóc, mũ, góc quay đầu hoặc vật cản nhưng vị trí tai vẫn còn trong khung ảnh, đặt điểm tại vị trí giải phẫu ước lượng và chọn `v=1`. Chỉ chọn `v=2` khi tâm keypoint nhìn thấy trực tiếp; chỉ chọn `v=0` khi vị trí tai thực sự ra ngoài mép ảnh.
-
-## 5. Kết luận
-
-Hai bộ nhãn đều có đủ 20 file và 29 skeleton, đồng thời đều đạt định dạng YOLO Pose. Khác biệt chính nằm ở cách sử dụng cờ visibility, đặc biệt tại `left_ear`, `right_knee` và tổng số keypoint `v=0`. Không tự động sửa nhãn chỉ dựa trên bảng chênh lệch; các cảnh báo cần được xác nhận bằng ảnh trước khi thay đổi.
+Khác biệt chủ yếu xuất phát từ cách áp dụng guideline khi phân biệt `Outside` (`v=0`) với `Occluded` (`v=1`). Từng keypoint phải được đối chiếu với mép ảnh và phần cơ thể liền kề trước khi kết luận là lỗi thao tác.
+`
